@@ -1,0 +1,33 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaiseMyVoice.Library", "ISEN.DotNet.Library\RaiseMyVoice.Library.csproj", "{B26E89FF-0506-4A4D-AB81-8660A911E7E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaiseMyVoice.Web", "ISEN.DotNet.Web\RaiseMyVoice.Web.csproj", "{2C6CAD15-1D91-4D0D-83AE-BCFEBDA84F17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaiseMyVoice.Tests", "ISEN.DotNet.Tests\RaiseMyVoice.Tests.csproj", "{05F1690F-A03F-4F0C-866F-1B95EB03D9E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B26E89FF-0506-4A4D-AB81-8660A911E7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B26E89FF-0506-4A4D-AB81-8660A911E7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B26E89FF-0506-4A4D-AB81-8660A911E7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B26E89FF-0506-4A4D-AB81-8660A911E7E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C6CAD15-1D91-4D0D-83AE-BCFEBDA84F17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C6CAD15-1D91-4D0D-83AE-BCFEBDA84F17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C6CAD15-1D91-4D0D-83AE-BCFEBDA84F17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C6CAD15-1D91-4D0D-83AE-BCFEBDA84F17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05F1690F-A03F-4F0C-866F-1B95EB03D9E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F1690F-A03F-4F0C-866F-1B95EB03D9E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F1690F-A03F-4F0C-866F-1B95EB03D9E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F1690F-A03F-4F0C-866F-1B95EB03D9E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
