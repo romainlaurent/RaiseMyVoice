@@ -11,7 +11,6 @@ namespace RaiseMyVoice.Library.Models
         public string Location { get; set; }
         public List<Question> QuestionCollection { get; set; } = new List<Question>();
 
-        public int AccountUserId { get; set; }
         public AccountUser AccountUser { get; set; }
     }
 }

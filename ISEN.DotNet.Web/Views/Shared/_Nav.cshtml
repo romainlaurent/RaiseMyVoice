@@ -28,18 +28,27 @@
                 </li>
                 @if (User.Identity.IsAuthenticated)
                 {
+                    @if (User.IsInRole("Admin"))
+                     {
+                         <li>
+                             <a asp-controller="Account" asp-action="Index">Users</a>
+                         </li>
+                     }
+                     else
+                     {
+                         <li>
+                             <a asp-controller="Module" asp-action="Index">Modules</a>
+                         </li>
+                     }
                     <li>
                         <a asp-controller="Account" asp-action="Logout">Logout</a>
-                    </li>
-                    <li>
-                        <a asp-controller="Module" asp-action="Index">Logout</a>
                     </li>
                 }
                 else
                 {
-                <li>
-                    <a asp-controller="Account" asp-action="Login">Login</a>
-                </li>
+                    <li>
+                        <a asp-controller="Account" asp-action="Login">Login</a>
+                    </li>
                 }
 
             </ul>

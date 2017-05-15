@@ -114,7 +114,7 @@ namespace RaiseMyVoice.Web
 
             // SeedData
             var seedService = app.ApplicationServices.GetService<SeedData>();
-            //seedService.DropCreateDatabase();
+            seedService.DropCreateDatabase();
             seedService.AddAdminAndRole();
         }
     }
