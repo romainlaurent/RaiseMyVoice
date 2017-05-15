@@ -44,7 +44,7 @@ namespace RaiseMyVoice.Web
                 .AddDbContext<ApplicationDbContext>();
 
             services.AddIdentity<AccountUser, AccountRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<ApplicationDbContext, int>()
                 .AddDefaultTokenProviders();
 
             // Add framework services.
@@ -114,7 +114,7 @@ namespace RaiseMyVoice.Web
 
             // SeedData
             var seedService = app.ApplicationServices.GetService<SeedData>();
-            seedService.DropCreateDatabase();
+            //seedService.DropCreateDatabase();
             seedService.AddAdminAndRole();
         }
     }

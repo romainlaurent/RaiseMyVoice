@@ -19,8 +19,5 @@ namespace RaiseMyVoice.Web.Controllers
             ViewData["Id"] = id;
             return Detail(id);
         }
-//
-//        [HttpPost]
-//        public IActionResult Create(E)
     }
 }

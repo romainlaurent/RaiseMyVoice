@@ -8,7 +8,7 @@ using RaiseMyVoice.Library.Data;
 namespace RaiseMyVoice.Library.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170515125335_InitialMigration")]
+    [Migration("20170515145159_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,7 +16,7 @@ namespace RaiseMyVoice.Library.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -25,8 +25,7 @@ namespace RaiseMyVoice.Library.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired();
+                    b.Property<int>("RoleId");
 
                     b.HasKey("Id");
 
@@ -35,7 +34,7 @@ namespace RaiseMyVoice.Library.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -44,8 +43,7 @@ namespace RaiseMyVoice.Library.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -54,7 +52,7 @@ namespace RaiseMyVoice.Library.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -62,8 +60,7 @@ namespace RaiseMyVoice.Library.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<int>("UserId");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -72,11 +69,11 @@ namespace RaiseMyVoice.Library.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<int>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
 
-                    b.Property<string>("RoleId");
+                    b.Property<int>("RoleId");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -85,9 +82,9 @@ namespace RaiseMyVoice.Library.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<int>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<string>("LoginProvider");
 
@@ -102,7 +99,7 @@ namespace RaiseMyVoice.Library.Migrations
 
             modelBuilder.Entity("RaiseMyVoice.Library.Models.AccountRole", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
@@ -127,7 +124,7 @@ namespace RaiseMyVoice.Library.Migrations
 
             modelBuilder.Entity("RaiseMyVoice.Library.Models.AccountUser", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
@@ -156,9 +153,9 @@ namespace RaiseMyVoice.Library.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("RoleId1");
+                    b.Property<string>("RoleId");
 
-                    b.Property<string>("RoleIdId");
+                    b.Property<int?>("RoleId1");
 
                     b.Property<string>("SecurityStamp");
 
@@ -177,8 +174,6 @@ namespace RaiseMyVoice.Library.Migrations
                         .HasName("UserNameIndex");
 
                     b.HasIndex("RoleId1");
-
-                    b.HasIndex("RoleIdId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -208,15 +203,13 @@ namespace RaiseMyVoice.Library.Migrations
 
                     b.Property<int>("AccountUserId");
 
-                    b.Property<string>("AccountUserId1");
-
                     b.Property<string>("Location");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountUserId1");
+                    b.HasIndex("AccountUserId");
 
                     b.ToTable("Module");
                 });
@@ -271,7 +264,7 @@ namespace RaiseMyVoice.Library.Migrations
                     b.ToTable("Subject");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("RaiseMyVoice.Library.Models.AccountRole")
                         .WithMany("Claims")
@@ -279,7 +272,7 @@ namespace RaiseMyVoice.Library.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("RaiseMyVoice.Library.Models.AccountUser")
                         .WithMany("Claims")
@@ -287,7 +280,7 @@ namespace RaiseMyVoice.Library.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("RaiseMyVoice.Library.Models.AccountUser")
                         .WithMany("Logins")
@@ -295,7 +288,7 @@ namespace RaiseMyVoice.Library.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<int>", b =>
                 {
                     b.HasOne("RaiseMyVoice.Library.Models.AccountRole")
                         .WithMany("Users")
@@ -313,10 +306,6 @@ namespace RaiseMyVoice.Library.Migrations
                     b.HasOne("RaiseMyVoice.Library.Models.AccountRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId1");
-
-                    b.HasOne("RaiseMyVoice.Library.Models.AccountRole", "RoleId")
-                        .WithMany()
-                        .HasForeignKey("RoleIdId");
                 });
 
             modelBuilder.Entity("RaiseMyVoice.Library.Models.Answer", b =>
@@ -331,7 +320,8 @@ namespace RaiseMyVoice.Library.Migrations
                 {
                     b.HasOne("RaiseMyVoice.Library.Models.AccountUser", "AccountUser")
                         .WithMany("ModuleCollection")
-                        .HasForeignKey("AccountUserId1");
+                        .HasForeignKey("AccountUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("RaiseMyVoice.Library.Models.Person", b =>

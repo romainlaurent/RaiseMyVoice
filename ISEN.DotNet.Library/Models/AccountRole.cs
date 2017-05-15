@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RaiseMyVoice.Library.Models
 {
-    public class AccountRole : IdentityRole
+    public class AccountRole : IdentityRole<int>
     {
         public string Description { get; set; }
     }

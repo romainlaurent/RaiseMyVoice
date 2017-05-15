@@ -5,7 +5,7 @@ using RaiseMyVoice.Library.Models;
 
 namespace RaiseMyVoice.Library.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AccountUser, AccountRole, string>
+    public class ApplicationDbContext : IdentityDbContext<AccountUser, AccountRole, int>
     {
         public DbSet<AccountUser> AccountUserCollection { get; set; }
         public DbSet<AccountRole> AccoutRoleCollection { get; set; }
