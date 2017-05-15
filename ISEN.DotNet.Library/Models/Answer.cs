@@ -10,7 +10,7 @@ namespace RaiseMyVoice.Library.Models
     {
         public bool Value { get; set; }
 
-        public int QustionId { get; set; }
+        public int QuestionId { get; set; }
         public Question Question { get; set; }
     }
 }

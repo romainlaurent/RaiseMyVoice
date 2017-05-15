@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -42,7 +43,7 @@ namespace RaiseMyVoice.Web
             services.AddEntityFrameworkSqlite()
                 .AddDbContext<ApplicationDbContext>();
 
-            services.AddIdentity<AccountUser, IdentityRole>()
+            services.AddIdentity<AccountUser, AccountRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -51,7 +52,6 @@ namespace RaiseMyVoice.Web
 
             // Ajouter ses propres services
             services.AddScoped<IPersonRepository, PersonRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IModuleRepository, ModuleRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IAnswerRepository, AnswerRepository>();
@@ -64,10 +64,10 @@ namespace RaiseMyVoice.Web
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
 
                 // Lockout settings
@@ -115,8 +115,7 @@ namespace RaiseMyVoice.Web
             // SeedData
             var seedService = app.ApplicationServices.GetService<SeedData>();
             //seedService.DropCreateDatabase();
-            seedService.AddAdmin();
-            seedService.AddSubjects();
+            seedService.AddAdminAndRole();
         }
     }
 }

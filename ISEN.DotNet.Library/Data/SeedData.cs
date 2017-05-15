@@ -12,8 +12,8 @@ namespace RaiseMyVoice.Library.Data
     public class SeedData
     {
         private readonly UserManager<AccountUser> _userManager;
+        private readonly RoleManager<AccountRole> _roleManager;
         private readonly ApplicationDbContext _context;
-        private readonly IUserRepository _userRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IModuleRepository _moduleRepository;
         private readonly IQuestionRepository _questionRepository;
@@ -24,23 +24,22 @@ namespace RaiseMyVoice.Library.Data
         public SeedData(
             ApplicationDbContext context,
             UserManager<AccountUser> userManager,
-            IUserRepository userRepository,
             IPersonRepository personRepository,
             IModuleRepository moduleRepository,
             IQuestionRepository questionRepository,
             IAnswerRepository answerRepository,
             ISubjectRepository subjectRepository,
-            ILogger<SeedData> logger)
+            ILogger<SeedData> logger, RoleManager<AccountRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
-            _userRepository = userRepository;
             _personRepository = personRepository;
             _moduleRepository = moduleRepository;
             _questionRepository = questionRepository;
             _answerRepository = answerRepository;
             _subjectRepository = subjectRepository;
             _logger = logger;
+            _roleManager = roleManager;
         }
 
         public void DropCreateDatabase()
@@ -54,24 +53,46 @@ namespace RaiseMyVoice.Library.Data
             _logger.LogWarning($"Database was {createdString}");
         }
 
-        public async Task AddAdmin()
+        public async void AddAdminAndRole()
         {
-            var mail = "admin@admin.fr";
-            if (_userManager.FindByNameAsync(mail) != null) return;
-            var result = await _userManager.CreateAsync(new AccountUser {UserName = mail, Email = mail},
-                "Admin123!");
-            if (result.Succeeded)
-                _logger.LogWarning("Admin user has been created");
+            var roleExist = await _roleManager.RoleExistsAsync("Admin");            
+            if (!roleExist)
+            {                
+                var r1 = await _roleManager.CreateAsync(new AccountRole { Name = "Admin" });
+                var r2 = await _roleManager.CreateAsync(new AccountRole { Name = "User" });
+                var r3 = await _roleManager.CreateAsync(new AccountRole { Name = "Module" });
+                const string mail = "admin@admin.fr";
+                var user = new AccountUser {UserName = mail, Email = mail};
+                var result = await _userManager.CreateAsync(user,
+                    "Admin123!");
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                    _logger.LogWarning("Admin user has been created");
+                }
+            }
         }
 
         public void AddSubjects()
         {
             if (_subjectRepository.GetAll().Any()) return;
             _logger.LogWarning("Adding subjects");
-            var s1 = new Subject() {Name = "Politique"};
-            var s2 = new Subject() {Name = "Sport"};
-            var s3 = new Subject() {Name = "Concert"};
-            var s4 = new Subject() {Name = "Art"};
+            var s1 = new Subject()
+            {
+                Name = "Politique"
+            };
+            var s2 = new Subject()
+            {
+                Name = "Sport"
+            };
+            var s3 = new Subject()
+            {
+                Name = "Concert"
+            };
+            var s4 = new Subject()
+            {
+                Name = "Art"
+            };
             _subjectRepository.UpdateRange(s1, s2, s3, s4);
             _subjectRepository.Save();
             _logger.LogWarning("Added subjects");

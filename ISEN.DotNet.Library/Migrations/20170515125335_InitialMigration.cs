@@ -4,24 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RaiseMyVoice.Library.Migrations
 {
-    public partial class InitialMigation : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
                 columns: table => new
@@ -37,29 +23,18 @@ namespace RaiseMyVoice.Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "AspNetRoles",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,6 +69,45 @@ namespace RaiseMyVoice.Library.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    RoleId1 = table.Column<string>(nullable: true),
+                    RoleIdId = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_AspNetRoles_RoleId1",
+                        column: x => x.RoleId1,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_AspNetRoles_RoleIdId",
+                        column: x => x.RoleIdId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,47 +176,25 @@ namespace RaiseMyVoice.Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    AccountUserId = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    QuestionId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_User_AspNetUsers_AccountUserId",
-                        column: x => x.AccountUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Module",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    AccountUserId = table.Column<int>(nullable: false),
+                    AccountUserId1 = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Module", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Module_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
+                        name: "FK_Module_AspNetUsers_AccountUserId1",
+                        column: x => x.AccountUserId1,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,8 +231,7 @@ namespace RaiseMyVoice.Library.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    QuestionId = table.Column<int>(nullable: true),
-                    QustionId = table.Column<int>(nullable: false),
+                    QuestionId = table.Column<int>(nullable: false),
                     Value = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -251,7 +242,7 @@ namespace RaiseMyVoice.Library.Migrations
                         column: x => x.QuestionId,
                         principalTable: "Question",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -276,12 +267,6 @@ namespace RaiseMyVoice.Library.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -302,6 +287,12 @@ namespace RaiseMyVoice.Library.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -313,14 +304,24 @@ namespace RaiseMyVoice.Library.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_RoleId1",
+                table: "AspNetUsers",
+                column: "RoleId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_RoleIdId",
+                table: "AspNetUsers",
+                column: "RoleIdId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Answer_QuestionId",
                 table: "Answer",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Module_UserId",
+                name: "IX_Module_AccountUserId1",
                 table: "Module",
-                column: "UserId");
+                column: "AccountUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_QuestionId",
@@ -336,37 +337,10 @@ namespace RaiseMyVoice.Library.Migrations
                 name: "IX_Question_SubjectId",
                 table: "Question",
                 column: "SubjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_AccountUserId",
-                table: "User",
-                column: "AccountUserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_QuestionId",
-                table: "User",
-                column: "QuestionId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_User_Question_QuestionId",
-                table: "User",
-                column: "QuestionId",
-                principalTable: "Question",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_User_AspNetUsers_AccountUserId",
-                table: "User");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_User_Question_QuestionId",
-                table: "User");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -389,12 +363,6 @@ namespace RaiseMyVoice.Library.Migrations
                 name: "Person");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Question");
 
             migrationBuilder.DropTable(
@@ -404,7 +372,10 @@ namespace RaiseMyVoice.Library.Migrations
                 name: "Subject");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
         }
     }
 }

@@ -8,7 +8,8 @@ namespace RaiseMyVoice.Library.Models
 {
     public class AccountUser : IdentityUser
     {
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public AccountRole RoleId { get; set; }
+        public AccountRole Role { get; set; }
+        public List<Module> ModuleCollection { get; set; } = new List<Module>();
     }
 }

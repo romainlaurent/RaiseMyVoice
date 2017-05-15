@@ -58,5 +58,11 @@
     <None Include="wwwroot\images\web.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Module\" />
+    <Folder Include="Views\Subject\" />
+    <Folder Include="Views\User\" />
+  </ItemGroup>
+
 
 </Project>

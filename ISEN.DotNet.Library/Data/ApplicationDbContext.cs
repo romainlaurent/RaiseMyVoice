@@ -5,9 +5,10 @@ using RaiseMyVoice.Library.Models;
 
 namespace RaiseMyVoice.Library.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AccountUser>
+    public class ApplicationDbContext : IdentityDbContext<AccountUser, AccountRole, string>
     {
-        public DbSet<User> UserCollection { get; set; }
+        public DbSet<AccountUser> AccountUserCollection { get; set; }
+        public DbSet<AccountRole> AccoutRoleCollection { get; set; }
         public DbSet<Module> ModuleCollection { get; set; }
         public DbSet<Question> QuestionCollection { get; set; }
         public DbSet<Subject> SubjectCollection { get; set; }

@@ -12,7 +12,7 @@ namespace RaiseMyVoice.Library.Models
         public int SubjectId { get; set; }
         public Subject Sujet { get; set; }
 
-        public List<User> PersonCollection { get; set; } = new List<User>();
+        public List<Person> PersonCollection { get; set; } = new List<Person>();
         public List<Answer> AnswerCollection { get; set; } = new List<Answer>();
     }
 }

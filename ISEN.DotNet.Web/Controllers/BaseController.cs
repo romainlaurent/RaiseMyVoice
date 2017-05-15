@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RaiseMyVoice.Library.Models;
@@ -27,9 +28,10 @@ namespace RaiseMyVoice.Web.Controllers
             return Json(model);
         }
 
-        public virtual IActionResult Index()
+        public virtual IActionResult Index(int? id)
         {
-            var model = Repository.GetAll();
+            ViewData["Id"] = id;
+            var model = id == null ? Repository.GetAll() : Repository.Find(o => o.Id == id.Value);
             return View(model);
         }
 

@@ -15,29 +15,6 @@ namespace RaiseMyVoice.Library.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -122,6 +99,31 @@ namespace RaiseMyVoice.Library.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("RaiseMyVoice.Library.Models.AccountRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
             modelBuilder.Entity("RaiseMyVoice.Library.Models.AccountUser", b =>
                 {
                     b.Property<string>("Id")
@@ -153,11 +155,13 @@ namespace RaiseMyVoice.Library.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("RoleId1");
+
+                    b.Property<string>("RoleIdId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<int>("UserId");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
@@ -171,6 +175,10 @@ namespace RaiseMyVoice.Library.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("RoleIdId");
+
                     b.ToTable("AspNetUsers");
                 });
 
@@ -181,9 +189,7 @@ namespace RaiseMyVoice.Library.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("QuestionId");
-
-                    b.Property<int>("QustionId");
+                    b.Property<int>("QuestionId");
 
                     b.Property<bool>("Value");
 
@@ -199,15 +205,17 @@ namespace RaiseMyVoice.Library.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AccountUserId");
+
+                    b.Property<string>("AccountUserId1");
+
                     b.Property<string>("Location");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AccountUserId1");
 
                     b.ToTable("Module");
                 });
@@ -262,36 +270,9 @@ namespace RaiseMyVoice.Library.Migrations
                     b.ToTable("Subject");
                 });
 
-            modelBuilder.Entity("RaiseMyVoice.Library.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AccountUserId");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("QuestionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountUserId")
-                        .IsUnique();
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                    b.HasOne("RaiseMyVoice.Library.Models.AccountRole")
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -315,7 +296,7 @@ namespace RaiseMyVoice.Library.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                    b.HasOne("RaiseMyVoice.Library.Models.AccountRole")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -326,25 +307,36 @@ namespace RaiseMyVoice.Library.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("RaiseMyVoice.Library.Models.AccountUser", b =>
+                {
+                    b.HasOne("RaiseMyVoice.Library.Models.AccountRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId1");
+
+                    b.HasOne("RaiseMyVoice.Library.Models.AccountRole", "RoleId")
+                        .WithMany()
+                        .HasForeignKey("RoleIdId");
+                });
+
             modelBuilder.Entity("RaiseMyVoice.Library.Models.Answer", b =>
                 {
                     b.HasOne("RaiseMyVoice.Library.Models.Question", "Question")
                         .WithMany("AnswerCollection")
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("RaiseMyVoice.Library.Models.Module", b =>
                 {
-                    b.HasOne("RaiseMyVoice.Library.Models.User", "User")
+                    b.HasOne("RaiseMyVoice.Library.Models.AccountUser", "AccountUser")
                         .WithMany("ModuleCollection")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AccountUserId1");
                 });
 
             modelBuilder.Entity("RaiseMyVoice.Library.Models.Person", b =>
                 {
                     b.HasOne("RaiseMyVoice.Library.Models.Question", "Question")
-                        .WithMany()
+                        .WithMany("PersonCollection")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -359,17 +351,6 @@ namespace RaiseMyVoice.Library.Migrations
                         .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("RaiseMyVoice.Library.Models.User", b =>
-                {
-                    b.HasOne("RaiseMyVoice.Library.Models.AccountUser", "AccountUser")
-                        .WithOne("User")
-                        .HasForeignKey("RaiseMyVoice.Library.Models.User", "AccountUserId");
-
-                    b.HasOne("RaiseMyVoice.Library.Models.Question")
-                        .WithMany("PersonCollection")
-                        .HasForeignKey("QuestionId");
                 });
         }
     }

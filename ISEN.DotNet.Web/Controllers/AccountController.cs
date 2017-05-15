@@ -1,32 +1,45 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RaiseMyVoice.Library.Data;
 using RaiseMyVoice.Library.Models;
 using RaiseMyVoice.Library.Models.AccountViewModels;
 
 namespace RaiseMyVoice.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<AccountUser> _userManager;
         private readonly SignInManager<AccountUser> _signInManager;
+        private readonly RoleManager<AccountRole> _roleManager;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
 
         public AccountController(
+            ApplicationDbContext context,
             UserManager<AccountUser> userManager,
             SignInManager<AccountUser> signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,           
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory, RoleManager<AccountRole> roleManager)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _logger = loggerFactory.CreateLogger<AccountController>();
+        }
+
+        public IActionResult Index()
+        {
+            return View(_context.AccountUserCollection);
         }
 
         //
@@ -64,21 +77,44 @@ namespace RaiseMyVoice.Web.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
-        }       
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(RegisterViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                var user = new AccountUser {UserName = model.Email, Email = model.Email};
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                    _logger.LogInformation(3, "User created a new account with password.");
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(model);
+        }
 
         //
         // POST: /Account/Logout
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        [AllowAnonymous]
+        public IActionResult Logout()
         {
-            await _signInManager.SignOutAsync();
+            _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         //
         // GET /Account/AccessDenied
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult AccessDenied()
         {
