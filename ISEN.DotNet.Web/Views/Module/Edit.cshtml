@@ -1,15 +1,13 @@
 @model IEnumerable<RaiseMyVoice.Library.Models.Question>
 
 @{
-    ViewData["Title"] = "Index";
-    var moduleId = ViewData["Id"];
+    ViewData["Title"] = "Edit";
 }
-@inject ISubjectRepository _subjectRepository;
 
-<h2>Index</h2>
+<h2>Edit</h2>
 
 <p>
-    <a asp-action="Create" asp-route-id="@moduleId">Create New Question</a>
+    <a asp-action="Create" asp-controller="Question" >Create New Question</a>
 </p>
 <table class="table">
     <thead>
@@ -18,7 +16,7 @@
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
             <th>
-              @Html.DisplayNameFor(model => model.Sujet)
+                @Html.DisplayNameFor(model => model.Sujet)
             </th>
             <th></th>
         </tr>
@@ -30,10 +28,10 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @_subjectRepository.Single(item.SubjectId).Name
+                @Html.DisplayFor(modelItem => item.Sujet.Id)
             </td>
             <td>
-                <a asp-action="Index" asp-controller ="Answer" asp-route-id="@item.Id">Results</a> |
+                <a asp-action="Resultat" asp-route-id="@item.Id">Résultats</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

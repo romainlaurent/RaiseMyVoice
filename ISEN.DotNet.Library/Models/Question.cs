@@ -11,7 +11,7 @@ namespace RaiseMyVoice.Library.Models
     {
         public int SubjectId { get; set; }
         public Subject Sujet { get; set; }
-        public string Content { get; set; }
+        public int ModuleId { get; set; }
 
         public List<Person> PersonCollection { get; set; } = new List<Person>();
         public List<Answer> AnswerCollection { get; set; } = new List<Answer>();

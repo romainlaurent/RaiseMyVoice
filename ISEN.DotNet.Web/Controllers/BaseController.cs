@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RaiseMyVoice.Library.Models;
 using RaiseMyVoice.Library.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace RaiseMyVoice.Web.Controllers
 {
@@ -12,13 +13,16 @@ namespace RaiseMyVoice.Web.Controllers
     {
         protected readonly ILogger<BaseController<IRepo, T>> Logger; 
         protected readonly IRepo Repository;
+        protected readonly UserManager<AccountUser> UserManager;
 
         public BaseController(
             IRepo repository,
-            ILogger<BaseController<IRepo, T>> logger)
+            ILogger<BaseController<IRepo, T>> logger,
+            UserManager<AccountUser> userManager)
         {
             Repository = repository;
             Logger = logger;
+            UserManager = userManager;
         }
 
         [HttpGet]
@@ -30,7 +34,6 @@ namespace RaiseMyVoice.Web.Controllers
 
         public virtual IActionResult Index(int? id)
         {
-            ViewData["Id"] = id;
             var model = id == null ? Repository.GetAll() : Repository.Find(o => o.Id == id.Value);
             return View(model);
         }

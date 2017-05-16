@@ -59,6 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Answer\" />
     <Folder Include="Views\Module\" />
     <Folder Include="Views\Subject\" />
     <Folder Include="Views\User\" />

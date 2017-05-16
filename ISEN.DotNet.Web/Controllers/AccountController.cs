@@ -38,7 +38,7 @@ namespace RaiseMyVoice.Web.Controllers
         }
 
         public IActionResult Index()
-        {
+        {         
             return View(_context.AccountUserCollection);
         }
 
@@ -70,6 +70,7 @@ namespace RaiseMyVoice.Web.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    ViewData["Id"] = _userManager.GetUserId(User);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }               

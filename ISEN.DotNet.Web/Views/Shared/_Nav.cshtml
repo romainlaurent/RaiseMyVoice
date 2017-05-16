@@ -1,5 +1,6 @@
 ﻿@using System.Security.Principal
 @using Microsoft.AspNetCore.Http
+
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -37,7 +38,7 @@
                      else
                      {
                          <li>
-                             <a asp-controller="Module" asp-action="Index">Modules</a>
+                             <a asp-controller="Module" asp-action="Index" asp-route-id="@ViewData["UserId"]">Modules</a>
                          </li>
                      }
                     <li>
