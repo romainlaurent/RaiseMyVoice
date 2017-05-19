@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
     var accountUserId = ViewData["Id"];
+    Layout = "_Layout2";
 }
 
 <h2>Index</h2>
@@ -36,7 +37,7 @@
             </td>
             <td>
                 <a asp-action="Index" asp-controller="Question" asp-route-id="@item.Id">Questions</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Detail" asp-route-id="@item.Id">Details</a> |
                 @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>

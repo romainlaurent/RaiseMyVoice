@@ -10,6 +10,7 @@ namespace RaiseMyVoice.Library.Models
     {
         public bool Value { get; set; }
 
+        [ForeignKey("Question")]
         public int QuestionId { get; set; }
         public Question Question { get; set; }
     }

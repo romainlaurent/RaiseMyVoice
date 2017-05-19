@@ -12,6 +12,7 @@ namespace RaiseMyVoice.Library.Models
         [RegularExpression("([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}")]
         public string MacAddress { get; set; }
 
+        [ForeignKey("Question")]
         public int QuestionId { get; set; }
         public Question Question { get; set; }
     }

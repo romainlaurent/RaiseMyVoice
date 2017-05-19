@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,12 +15,18 @@ namespace RaiseMyVoice.Web.Controllers
         {
         }
 
-        public override IActionResult Index(int? a)
+        public override IActionResult Index(int? id)
         {
-            var idStr = UserManager.GetUserId(User);
-            int id;
-            int.TryParse(idStr, out id);
-            var module = Repository.Find(o => o.AccountUserId == id);
+            ViewData["Id"] = id;
+            IEnumerable<Module> module;
+            if (User.IsInRole("Admin"))               
+                module = Repository.Find(o => o.AccountUserId == id);
+            else
+            {
+                int idU;
+                int.TryParse(UserManager.GetUserId(User), out idU);
+                module = Repository.Find(o => o.AccountUserId == idU);
+            }
             return View(module);
         }
 
@@ -27,7 +34,7 @@ namespace RaiseMyVoice.Web.Controllers
         public IActionResult Create(int id)
         {
             ViewData["Id"] = id;
-            return Detail(id);
+            return View();
         }
 
         [Authorize(Roles = "User")]
