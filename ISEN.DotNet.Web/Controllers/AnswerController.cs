@@ -35,5 +35,13 @@ namespace RaiseMyVoice.Web.Controllers
                 return View("Error");
         }
 
+        [HttpPost]
+        public IActionResult Add(Answer answer)
+        {
+              Repository.Update(answer);
+              Repository.Save();
+              return new EmptyResult();
+        }
+
     }
 }
