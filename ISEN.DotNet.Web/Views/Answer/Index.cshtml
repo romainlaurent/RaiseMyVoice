@@ -1,0 +1,31 @@
+@model RaiseMyVoice.Library.Models.Question
+
+
+<h2>Results</h2>
+
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                Yes
+            </th>
+            <th>
+                No
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @ViewData["Yes"]
+            </td>
+            <td>
+                 @ViewData["No"]
+            </td>
+         </tr>
+
+     </tbody>
+     </table>
+        
